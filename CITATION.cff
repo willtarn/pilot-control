@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "Pilot Control: A Maritime Safety Benchmark for LLM Agents"
+message: "If you use this benchmark, please cite it as below."
+authors:
+  - family-names: Tarn
+    given-names: Willis
+type: software
+version: 0.1.0
+date-released: 2025-06-13
+url: "https://github.com/<your-username>/pilot-control"
+license: MIT
+keywords:
+  - ai-safety
+  - llm-evaluation
+  - maritime
+  - inspect
+  - colregs
+  - mass
+abstract: >-
+  Pilot Control is a 40-case behavioural-evaluation benchmark for LLM agents
+  in maritime decision-making contexts, scored on five behavioural axes
+  (correctness, calibration, escalation, authority-respect, COLREGs/ROE
+  rule-following) across four scenario families (maintenance deferral,
+  anomaly triage, incident escalation, autonomous-surface-vessel exception
+  handling). Built in UK AISI Inspect format.

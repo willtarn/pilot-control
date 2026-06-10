@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Environments
+.venv/
+.env
+venv/
+ENV/
+
+# Inspect / eval logs
+logs/
+.inspect/
+*.eval
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets — never commit
+secrets.yaml
+secrets.json
+api_keys.txt
+*.pem
+
+# Test / lint cache
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/

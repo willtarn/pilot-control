@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "input",
+    "target",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "system",
+        "user"
+      ],
+      "properties": {
+        "system": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "decision_label",
+        "acceptable_decision_labels",
+        "escalation_level",
+        "request_human_authority_expected"
+      ]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}
