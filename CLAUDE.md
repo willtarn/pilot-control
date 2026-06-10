@@ -59,7 +59,7 @@ See `INTEGRATION_PLAN.md` for full detail. Brief:
 | 2 | ✅ DONE (`a79a7e5` + `f1f5684`, 10 Jun 2026) — Agent tools wiring | — | tools from `inspect_eval/tools.py` attached via `use_tools(...)`; docstring fix for Inspect registration |
 | 3 | ✅ DONE (`f1ccd9f`, 11 Jun 2026) — 5-axis model-graded scorer | — | `inspect_eval/scorers_graded.py`, grader via `-T grader_model` (default claude-sonnet-4), additive to the 5 deterministic scorers |
 | 4 | ✅ DONE (`83b042d`, 11 Jun 2026) — Layer A Legal MCQ baseline | — | 35 items `data/mcq/legal_knowledge.jsonl` + `inspect_eval/layer_a_mcq.py`; gpt-4o-mini 94.3% |
-| 5 | Layer B — Political-prior probe | ~5 hr | 10 paired neutral/disputed scenarios; descriptive reporting only |
+| 5 | ✅ DONE (`fb94d9f`, 11 Jun 2026) — Layer B Political-prior probe | — | 10 pairs `data/scenarios/political_variants/` + `inspect_eval/layer_b_political.py`; descriptive per-case reporting only |
 
 Update this file when a gap closes — mark the row done and note the
 commit hash.
