@@ -55,8 +55,8 @@ See `INTEGRATION_PLAN.md` for full detail. Brief:
 
 | # | Gap | Effort | Where |
 |---|---|---|---|
-| 1 | ✅ DONE (`6d4ceb4`, 10 Jun 2026) — Three conditions (direct / CoT / agent) | — | `pilot_control_task.py` `condition: str` parameter ("direct"/"cot"/"agent") |
-| 2 | ✅ DONE (`6d4ceb4` + `d25787d`, 10 Jun 2026) — Agent tools wiring | — | tools from `inspect_eval/tools.py` attached via `use_tools(...)`; docstring fix for Inspect registration |
+| 1 | ✅ DONE (`a79a7e5`, 10 Jun 2026) — Three conditions (direct / CoT / agent) | — | `pilot_control_task.py` `condition: str` parameter ("direct"/"cot"/"agent") |
+| 2 | ✅ DONE (`a79a7e5` + `f1f5684`, 10 Jun 2026) — Agent tools wiring | — | tools from `inspect_eval/tools.py` attached via `use_tools(...)`; docstring fix for Inspect registration |
 | 3 | 5-axis model-graded scorer | ~5 hr | consume per-case `rubric_annotations` (full_credit/partial_credit/no_credit per axis) |
 | 4 | Layer A — Legal MCQ baseline | ~3 hr | 30–50 items on COLREGs Rules 5/6/7/8/14/15/17 + UNCLOS Art 17–32 + authority |
 | 5 | Layer B — Political-prior probe | ~5 hr | 10 paired neutral/disputed scenarios; descriptive reporting only |

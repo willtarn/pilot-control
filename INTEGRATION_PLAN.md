@@ -37,8 +37,8 @@ here.
 
 ### Gap 1 — Three conditions (direct / CoT / agent) — ✅ DONE
 
-> **Closed 10 Jun 2026**, commit `6d4ceb4` (`feat(task): add direct/cot/agent
-> conditions`), plus `d25787d` (`fix(tools): add missing execute() docstrings`).
+> **Closed 10 Jun 2026**, commit `a79a7e5` (`feat(task): add direct/cot/agent
+> conditions`), plus `f1f5684` (`fix(tools): add missing execute() docstrings`).
 > `pilot_control()` now takes `condition: str = "direct"`; invalid values raise
 > `ValueError`. Verified: 2-case dev smoke evals green in all three conditions
 > (gpt-4o-mini); agent log shows 5 tool calls across 2 samples, including
@@ -52,7 +52,7 @@ here.
 > runs (e.g. `pilot_control_dev_agent`) so W13 baseline logs are distinguishable;
 > direct names are unchanged for backward compatibility. (3) Two tools had
 > missing inner docstrings and failed Inspect registration at runtime — fixed in
-> `d25787d`; this also closed the remainder of Gap 2 (the wiring) in the same
+> `f1f5684`; this also closed the remainder of Gap 2 (the wiring) in the same
 > pass.
 
 **Current state.** The `pilot_control` Task runs a single solver: `generate()`.
@@ -88,8 +88,8 @@ def pilot_control(split: str = "all", scenario_family: str | None = None,
 ### Gap 2 — Agent tools — ✅ DONE
 
 > **Closed 10 Jun 2026.** `inspect_eval/tools.py` already contained the four
-> tools; commit `6d4ceb4` wired them into the agent condition via
-> `use_tools(...)` and `d25787d` fixed the two missing `execute()` docstrings
+> tools; commit `a79a7e5` wired them into the agent condition via
+> `use_tools(...)` and `f1f5684` fixed the two missing `execute()` docstrings
 > that Inspect requires for tool registration.
 
 **Current state.** Per-case `tool_expectations` blocks reference four tools
