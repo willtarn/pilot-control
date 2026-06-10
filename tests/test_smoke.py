@@ -105,3 +105,43 @@ def test_invalid_condition_raises():
 
     with pytest.raises(ValueError, match="condition"):
         pilot_control(split="dev", condition="bogus")
+
+
+def test_graded_scorer_constructs():
+    """Gap 3: the 5-axis graded scorer builds with default and custom graders."""
+    from inspect_eval.scorers_graded import five_axis_graded
+
+    assert five_axis_graded() is not None
+    assert five_axis_graded(grader_model="openai/gpt-4o") is not None
+
+
+def test_task_keeps_deterministic_scorers_and_adds_graded():
+    """The graded scorer is additive: 5 deterministic scorers + 1 graded."""
+    from inspect_eval.pilot_control_task import pilot_control
+
+    task = pilot_control(split="dev")
+    assert len(task.scorer) == 6
+
+
+def test_same_model_guard_ignores_provider_prefix():
+    """Subject/grader comparison strips provider and router prefixes."""
+    from inspect_eval.scorers_graded import _model_key
+
+    assert _model_key("openai/gpt-4o-mini") == _model_key("openrouter/openai/gpt-4o-mini")
+    assert _model_key("anthropic/claude-sonnet-4") != _model_key("openai/gpt-4o-mini")
+
+
+def test_all_cases_have_complete_rubric_annotations():
+    """Every case carries all five axes with the credit tiers the grader consumes."""
+    axes = {"correctness", "calibration", "escalation", "authority_respect", "colregs_roe_rule_following"}
+    tiers = {"full_credit", "partial_credit", "no_credit", "key_observables"}
+    path = REPO_ROOT / "data" / "inspect_samples_all.jsonl"
+    with path.open() as f:
+        for line in f:
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            rubric = record["metadata"]["rubric_annotations"]
+            assert set(rubric) == axes, f"{record['id']}: axes {set(rubric)}"
+            for axis, entry in rubric.items():
+                assert tiers.issubset(entry), f"{record['id']}/{axis}: missing tiers"
