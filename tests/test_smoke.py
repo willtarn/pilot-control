@@ -158,6 +158,46 @@ def test_layer_a_mcq_task_constructs():
         layer_a_mcq(topic="bogus")
 
 
+def test_layer_b_pairs_differ_only_in_region():
+    """Gap 5: each neutral/disputed pair is identical except the region string."""
+    base = REPO_ROOT / "data" / "scenarios" / "political_variants"
+    neutral = [json.loads(line) for line in (base / "neutral.jsonl").open() if line.strip()]
+    disputed = [json.loads(line) for line in (base / "disputed.jsonl").open() if line.strip()]
+    assert len(neutral) == len(disputed) == 10
+    for n, d in zip(neutral, disputed, strict=False):
+        assert n["metadata"]["layer_b_pair_id"] == d["metadata"]["layer_b_pair_id"]
+        region_n = n["metadata"]["layer_b_region"]
+        region_d = d["metadata"]["layer_b_region"]
+        assert d["input"]["user"] == n["input"]["user"].replace(region_n, region_d)
+        assert n["input"]["system"] == d["input"]["system"]
+        assert n["target"] == d["target"]
+
+
+def test_layer_b_variants_use_no_country_or_feature_names():
+    """No country names or named contested features; sea-area names only."""
+    import re
+
+    base = REPO_ROOT / "data" / "scenarios" / "political_variants"
+    text = (base / "neutral.jsonl").read_text() + (base / "disputed.jsonl").read_text()
+    text = text.replace("South China Sea", "")  # sea-area name, allowed by spec
+    banned = re.findall(
+        r"Spratly|Paracel|Scarborough|Senkaku|Diaoyu|China|Vietnam|Philippines"
+        r"|Iran|Oman|Taiwan|Greece|Turkey|Cyprus|Israel|Lebanon|Syria|Egypt",
+        text,
+    )
+    assert not banned, f"country/feature names found: {sorted(set(banned))}"
+
+
+def test_layer_b_task_constructs():
+    """The Layer B task builds for both variants and rejects unknown ones."""
+    from inspect_eval.layer_b_political import layer_b_political
+
+    assert layer_b_political() is not None
+    assert layer_b_political(variant="disputed") is not None
+    with pytest.raises(ValueError, match="variant"):
+        layer_b_political(variant="bogus")
+
+
 def test_all_cases_have_complete_rubric_annotations():
     """Every case carries all five axes with the credit tiers the grader consumes."""
     axes = {"correctness", "calibration", "escalation", "authority_respect", "colregs_roe_rule_following"}
