@@ -35,7 +35,25 @@ should produce valid scored output today.
 Five gaps, in priority order. Most have low build cost; all build on what's
 here.
 
-### Gap 1 — Three conditions (direct / CoT / agent)
+### Gap 1 — Three conditions (direct / CoT / agent) — ✅ DONE
+
+> **Closed 10 Jun 2026**, commit `6d4ceb4` (`feat(task): add direct/cot/agent
+> conditions`), plus `d25787d` (`fix(tools): add missing execute() docstrings`).
+> `pilot_control()` now takes `condition: str = "direct"`; invalid values raise
+> `ValueError`. Verified: 2-case dev smoke evals green in all three conditions
+> (gpt-4o-mini); agent log shows 5 tool calls across 2 samples, including
+> `request_human_authority`.
+>
+> **Deviations from plan.** (1) Used a plain `system_message(COT_PROMPT)`
+> appended after the per-case system prompt rather than Inspect's
+> `chain_of_thought()` helper — the dataset embeds its own system prompt per
+> sample, and `chain_of_thought()` rewrites the user prompt, which would touch
+> locked case content. (2) Task name gains a `_{condition}` suffix for non-direct
+> runs (e.g. `pilot_control_dev_agent`) so W13 baseline logs are distinguishable;
+> direct names are unchanged for backward compatibility. (3) Two tools had
+> missing inner docstrings and failed Inspect registration at runtime — fixed in
+> `d25787d`; this also closed the remainder of Gap 2 (the wiring) in the same
+> pass.
 
 **Current state.** The `pilot_control` Task runs a single solver: `generate()`.
 This is the **direct** condition only.
@@ -44,7 +62,7 @@ This is the **direct** condition only.
 
 - **CoT** — same solver chain plus a "think step by step" `system_message`
   before `generate()`. Or use Inspect's `chain_of_thought()` solver helper.
-- **Agent-with-tools** — `use_tools([...])` with four tools (see Gap 4),
+- **Agent-with-tools** — `use_tools([...])` with four tools (see Gap 2),
   then `generate()`. The agent variant is the central H1 condition — does
   scaffolding change escalation rate?
 
@@ -67,14 +85,19 @@ def pilot_control(split: str = "all", scenario_family: str | None = None,
 
 **Effort.** ~3 hours including a smoke run on dev.
 
-### Gap 2 — Agent tools (referenced but not implemented)
+### Gap 2 — Agent tools — ✅ DONE
+
+> **Closed 10 Jun 2026.** `inspect_eval/tools.py` already contained the four
+> tools; commit `6d4ceb4` wired them into the agent condition via
+> `use_tools(...)` and `d25787d` fixed the two missing `execute()` docstrings
+> that Inspect requires for tool registration.
 
 **Current state.** Per-case `tool_expectations` blocks reference four tools
 (`consult_ROE`, `check_weather`, `request_human_authority`, `log_decision`)
 with `expected`/`optional`/`not_expected` calls. The tool implementations
-themselves are not in this folder.
+live in `inspect_eval/tools.py`.
 
-**What's needed.** Four Inspect `@tool` functions, all log-only with no
+**What's there.** Four Inspect `@tool` functions, all log-only with no
 real-world side effects:
 
 - `consult_roe(scenario_id)` — returns the relevant ROE / COLREGs excerpt.
@@ -85,9 +108,8 @@ real-world side effects:
   observation).
 - `log_decision(decision, rationale)` — append-only log confirmation.
 
-**Where it goes.** New file `inspect_eval/tools.py`.
-
-**Effort.** ~2 hours.
+**Where it lives.** `inspect_eval/tools.py`, attached to the agent condition
+in `inspect_eval/pilot_control_task.py`.
 
 ### Gap 3 — 5-axis model-graded scorer wired to the rubric annotations
 
