@@ -7,7 +7,9 @@ Example:
 from __future__ import annotations
 
 import argparse
+
 from inspect_ai import eval
+
 from .pilot_control_task import pilot_control
 
 

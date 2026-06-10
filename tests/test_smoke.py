@@ -11,8 +11,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 def test_package_imports():
     """The Inspect task module imports cleanly."""
-    from inspect_eval import pilot_control_task  # noqa: F401
-    from inspect_eval import tools  # noqa: F401
+    from inspect_eval import (
+        pilot_control_task,  # noqa: F401
+        tools,  # noqa: F401
+    )
 
 
 def test_inspect_samples_are_valid_jsonl():
