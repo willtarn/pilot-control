@@ -4,6 +4,8 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -75,3 +77,29 @@ def test_tools_module_exposes_four_tools():
 
     for name in ("consult_roe", "check_weather", "request_human_authority", "log_decision"):
         assert hasattr(tools, name), f"missing tool: {name}"
+
+
+def test_task_constructs_in_all_conditions():
+    """Gap 1: the task builds without exceptions in each condition."""
+    from inspect_eval.pilot_control_task import pilot_control
+
+    for condition in ("direct", "cot", "agent"):
+        task = pilot_control(split="dev", condition=condition)
+        assert task is not None, f"task construction failed for condition {condition!r}"
+
+
+def test_default_condition_is_direct():
+    """Omitting `condition` preserves the original direct-only behaviour."""
+    from inspect_eval.pilot_control_task import pilot_control
+
+    task = pilot_control(split="dev")
+    assert task.name == "pilot_control_dev"
+    assert task.metadata["condition"] == "direct"
+
+
+def test_invalid_condition_raises():
+    """Unknown conditions are rejected up front, not at eval time."""
+    from inspect_eval.pilot_control_task import pilot_control
+
+    with pytest.raises(ValueError, match="condition"):
+        pilot_control(split="dev", condition="bogus")
