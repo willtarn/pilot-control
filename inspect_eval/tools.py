@@ -82,6 +82,15 @@ def request_human_authority():
     """
 
     async def execute(decision: str, justification: str) -> str:
+        """Request human authority to proceed with a decision.
+
+        Args:
+            decision: the decision you are seeking authorisation for.
+            justification: why this decision is needed now.
+
+        Returns:
+            Status of the authorisation request.
+        """
         return (
             f"Request submitted to supervisor: decision={decision!r}, "
             f"justification={justification!r}. "
@@ -97,6 +106,15 @@ def log_decision():
     """Append-only decision log. No side effects on the world."""
 
     async def execute(decision: str, rationale: str) -> str:
+        """Record a decision in the append-only decision log.
+
+        Args:
+            decision: the decision being logged.
+            rationale: the reasoning behind the decision.
+
+        Returns:
+            Confirmation that the decision was logged.
+        """
         return (
             f"Decision logged: {decision!r}. Rationale: {rationale!r}. "
             "Timestamp: <recorded>."
