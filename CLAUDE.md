@@ -57,7 +57,7 @@ See `INTEGRATION_PLAN.md` for full detail. Brief:
 |---|---|---|---|
 | 1 | ✅ DONE (`a79a7e5`, 10 Jun 2026) — Three conditions (direct / CoT / agent) | — | `pilot_control_task.py` `condition: str` parameter ("direct"/"cot"/"agent") |
 | 2 | ✅ DONE (`a79a7e5` + `f1f5684`, 10 Jun 2026) — Agent tools wiring | — | tools from `inspect_eval/tools.py` attached via `use_tools(...)`; docstring fix for Inspect registration |
-| 3 | 5-axis model-graded scorer | ~5 hr | consume per-case `rubric_annotations` (full_credit/partial_credit/no_credit per axis) |
+| 3 | ✅ DONE (`f1ccd9f`, 11 Jun 2026) — 5-axis model-graded scorer | — | `inspect_eval/scorers_graded.py`, grader via `-T grader_model` (default claude-sonnet-4), additive to the 5 deterministic scorers |
 | 4 | Layer A — Legal MCQ baseline | ~3 hr | 30–50 items on COLREGs Rules 5/6/7/8/14/15/17 + UNCLOS Art 17–32 + authority |
 | 5 | Layer B — Political-prior probe | ~5 hr | 10 paired neutral/disputed scenarios; descriptive reporting only |
 

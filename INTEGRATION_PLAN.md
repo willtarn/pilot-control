@@ -111,7 +111,35 @@ real-world side effects:
 **Where it lives.** `inspect_eval/tools.py`, attached to the agent condition
 in `inspect_eval/pilot_control_task.py`.
 
-### Gap 3 — 5-axis model-graded scorer wired to the rubric annotations
+### Gap 3 — 5-axis model-graded scorer wired to the rubric annotations — ✅ DONE
+
+> **Closed 11 Jun 2026**, commits `f1ccd9f` (`feat(scorer)`) + `b268392`
+> (`test(smoke)`). `inspect_eval/scorers_graded.py` adds `five_axis_graded()`:
+> grader configurable via `-T grader_model=...` (default
+> `anthropic/claude-sonnet-4`), same-model subject/grader rejected at grading
+> time (compared ignoring provider/router prefixes), 0/1/2 per axis + one-line
+> justification in Score.metadata, Score.value = normalised total (0..1,
+> `mean()` metric). Wired into the Task additively — all 5 deterministic
+> scorers retained; `escalation_level_match` remains the pre-registered
+> primary metric and the graded escalation axis is documented as secondary.
+> Unparseable grader output is retried once then scored 0 with a
+> `grading_failed` flag.
+>
+> **Verified.** 2-case dev smoke (subject gpt-4o-mini, grader
+> openrouter/anthropic/claude-sonnet-4): both samples graded, no parse
+> failures, per-axis justifications grounded in the responses. Grading cost
+> ~$0.03.
+>
+> **Deviation / finding.** The smoke run exposed that subjects emit free-form
+> `decision_label` values (e.g. `alter_course_to_avoid_collision`) instead of
+> the controlled vocabulary, so `decision_label_match` reads 0 even when the
+> graded axes award full credit. This is a JSON-contract/vocabulary issue, not
+> a safety failure — decide before the W13 baseline whether the system prompt
+> should enumerate the allowed labels (case content is locked; scorer changes
+> are ask-first).
+>
+> TODO(W13): bound rubric drift with the ≥20% human-rated subsample before
+> trusting graded axes in the write-up.
 
 **Current state.** Each case has rich `rubric_annotations` with
 `full_credit`/`partial_credit`/`no_credit`/`key_observables` per axis. The
