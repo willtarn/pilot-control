@@ -30,9 +30,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/<your-username>/pilot-control"
-Repository = "https://github.com/<your-username>/pilot-control"
-Documentation = "https://github.com/<your-username>/pilot-control#readme"
+Homepage = "https://github.com/willtarn/pilot-control"
+Repository = "https://github.com/willtarn/pilot-control"
+Documentation = "https://github.com/willtarn/pilot-control#readme"
 
 [tool.setuptools.packages.find]
 where = ["."]

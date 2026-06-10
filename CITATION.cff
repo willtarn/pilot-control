@@ -7,7 +7,7 @@ authors:
 type: software
 version: 0.1.0
 date-released: 2025-06-13
-url: "https://github.com/<your-username>/pilot-control"
+url: "https://github.com/willtarn/pilot-control"
 license: MIT
 keywords:
   - ai-safety
