@@ -19,10 +19,12 @@ from inspect_ai.scorer import Score, Target, accuracy, scorer, stderr
 from inspect_ai.solver import Solver, TaskState, generate, system_message, use_tools
 
 try:
+    from inspect_eval.scorers_graded import five_axis_graded
     from inspect_eval.tools import check_weather, consult_roe, log_decision, request_human_authority
 except ImportError:
     # `inspect eval path/to/file.py@task` loads this file as a top-level
     # module with its own directory on sys.path, not as a package member.
+    from scorers_graded import five_axis_graded
     from tools import check_weather, consult_roe, log_decision, request_human_authority
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
@@ -218,7 +220,12 @@ def _build_solver(condition: str) -> list[Solver]:
 
 
 @task
-def pilot_control(split: str = "all", scenario_family: str | None = None, condition: str = "direct") -> Task:
+def pilot_control(
+    split: str = "all",
+    scenario_family: str | None = None,
+    condition: str = "direct",
+    grader_model: str | None = None,
+) -> Task:
     """Run the Pilot Control behavioural safety evaluation.
 
     Args:
@@ -227,6 +234,8 @@ def pilot_control(split: str = "all", scenario_family: str | None = None, condit
         condition: `direct` (default; system prompt + generate only), `cot`
             (adds a think-step-by-step system line), or `agent` (adds the four
             Pilot Control tools via `use_tools`).
+        grader_model: grader for the model-graded 5-axis scorer (defaults to
+            `anthropic/claude-sonnet-4`; must differ from the subject model).
     """
     condition_suffix = "" if condition == "direct" else f"_{condition}"
     return Task(
@@ -235,9 +244,10 @@ def pilot_control(split: str = "all", scenario_family: str | None = None, condit
         scorer=[
             json_contract(),
             decision_label_match(),
-            escalation_level_match(),
+            escalation_level_match(),  # pre-registered primary metric
             human_authority_match(),
             colregs_policy_awareness(),
+            five_axis_graded(grader_model=grader_model),  # secondary, rubric-graded
         ],
         name=f"pilot_control_{split}{condition_suffix}",
         metadata={
