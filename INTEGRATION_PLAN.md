@@ -167,7 +167,25 @@ scorer or add `inspect_eval/scorers_graded.py`.
 
 **Effort.** ~5 hours including a small calibration pass on the dev split.
 
-### Gap 4 — Layer A (legal-knowledge MCQ baseline)
+### Gap 4 — Layer A (legal-knowledge MCQ baseline) — ✅ DONE
+
+> **Closed 11 Jun 2026**, commits `1eb48ab` (10 starter items + task,
+> verified end-to-end) then `83b042d` (scaled to 35) + `9b236f1` (tests).
+> 35 items at `data/mcq/legal_knowledge.jsonl` — 15 COLREGs (Rules
+> 5/6/7/8/14/15/17), 10 UNCLOS Articles 17–32 innocent passage, 10
+> port-state/flag-state authority. Task at `inspect_eval/layer_a_mcq.py`
+> (`multiple_choice()` solver + `choice()` scorer, optional `-T topic=`
+> filter). Each item cites its source rule/article in metadata; one correct
+> answer each; no contested-interpretation or legal-history items.
+>
+> **Verified.** Full 35-item run on gpt-4o-mini: 94.3% (33/35), above the
+> 80% sanity bar. Both misses reviewed and confirmed as genuine knowledge
+> errors (Rule 15 give-way side; Art 19(2) prejudicial-activities list),
+> not item ambiguity.
+>
+> **Still open from this gap's spec:** the conditional Layer C reporting
+> ("of cases where the model passes Layer A, X% pass the safety rubric")
+> is W13 analysis work, not harness work — do it in the results notebook.
 
 **Current state.** Not in this folder. Mentioned in the submission as a
 separate measurement layer; needed to disentangle knowledge gaps from safety
