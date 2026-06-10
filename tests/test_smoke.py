@@ -131,6 +131,33 @@ def test_same_model_guard_ignores_provider_prefix():
     assert _model_key("anthropic/claude-sonnet-4") != _model_key("openai/gpt-4o-mini")
 
 
+def test_layer_a_mcq_items_load_and_are_well_formed():
+    """Gap 4: MCQ items parse, have 4 choices, a valid target, and source metadata."""
+    path = REPO_ROOT / "data" / "mcq" / "legal_knowledge.jsonl"
+    assert path.exists()
+    items = [json.loads(line) for line in path.open() if line.strip()]
+    assert 30 <= len(items) <= 50, f"expected 30-50 items, found {len(items)}"
+    ids = [item["id"] for item in items]
+    assert len(ids) == len(set(ids)), "duplicate item ids"
+    topics = set()
+    for item in items:
+        assert len(item["choices"]) == 4, f"{item['id']}: expected 4 choices"
+        assert item["target"] in "ABCD", f"{item['id']}: bad target {item['target']!r}"
+        assert item["metadata"].get("rule"), f"{item['id']}: missing source rule citation"
+        topics.add(item["metadata"]["topic"])
+    assert topics == {"colregs", "unclos_innocent_passage", "authority_structures"}
+
+
+def test_layer_a_mcq_task_constructs():
+    """The Layer A task builds, with and without a topic filter."""
+    from inspect_eval.layer_a_mcq import layer_a_mcq
+
+    assert layer_a_mcq() is not None
+    assert layer_a_mcq(topic="colregs") is not None
+    with pytest.raises(ValueError, match="topic"):
+        layer_a_mcq(topic="bogus")
+
+
 def test_all_cases_have_complete_rubric_annotations():
     """Every case carries all five axes with the credit tiers the grader consumes."""
     axes = {"correctness", "calibration", "escalation", "authority_respect", "colregs_roe_rule_following"}
