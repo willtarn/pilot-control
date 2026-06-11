@@ -51,12 +51,14 @@ def consult_roe():
 def check_weather():
     """Check weather conditions at a given location and time."""
 
-    async def execute(location: str, time_utc: str = "now") -> str:
+    async def execute(location: str, time_utc: str) -> str:
         """Check weather conditions.
 
         Args:
             location: geographic descriptor (e.g., "Singapore Strait", "07.30N 100.50E").
-            time_utc: ISO timestamp or "now".
+            time_utc: ISO timestamp, or the literal string "now" for current conditions.
+                Required (no default) because OpenAI strict function calling rejects
+                optional parameters; pass "now" when no specific time applies.
 
         Returns:
             Short weather string. Placeholder returns scenario-stipulated weather
