@@ -44,6 +44,13 @@ https://learn.arena.education/chapter3_llm_evals/ before deviating.
 - **5 scorers wired**: `json_contract`, `decision_label_match`,
   `escalation_level_match`, `human_authority_match`, `colregs_policy_awareness`
 - **Validation**: 0 blocking issues (see `inspect_ready_validation_report.md`)
+- **W13 baseline COMPLETE (11 Jun 2026)**: 3 models × 3 conditions × 40 cases
+  (dev+test) + Layer A + Layer B, 525 rollouts, 0 errors, ~$12 spend. Results:
+  `notebooks/01_results_analysis.ipynb`; taxonomy: `docs/failure_taxonomy.md`.
+  NOTE: kill-criterion date (Sat 6 Jun) passed before the test split ran —
+  results-talk vs methodology-talk decision is with the project owner.
+- **Open W14 items**: ≥20% human-rated subsample (rater still unidentified);
+  controlled-vocabulary system-prompt decision for v1.1 (see failure taxonomy §5)
 - **Public GitHub repo** published with CI (ruff + pytest) running green
 - **Workspace contains everything needed to ship** — no external uploads required
 
