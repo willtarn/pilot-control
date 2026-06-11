@@ -4,7 +4,7 @@
 > is live on github.com." Designed to be followed line by line.
 
 **What you'll have at the end:** a public GitHub repo at
-`https://github.com/willstarn/pilot-control` with CI running green, the
+`https://github.com/willtarn/pilot-control` with CI running green, the
 dataset rendered properly in the README, and everything ready to share.
 
 **Estimated time:** 15–20 minutes the first time (longer if you need to
@@ -62,7 +62,7 @@ Re-open Terminal after installing anything new so the new commands are found.
 ## 2  ·  GitHub account + authentication (one-time setup)
 
 If you don't have a GitHub account yet, create one at
-https://github.com/signup. Use the username `willstarn` (or whichever
+https://github.com/signup. Use the username `willtarn` (or whichever
 username you actually want — pass it as the argument when you run the
 script).
 
@@ -94,7 +94,7 @@ Expected output:
 
 ```
 github.com
-  ✓ Logged in to github.com account willstarn (...)
+  ✓ Logged in to github.com account willtarn (...)
   - Active account: true
   - Git operations protocol: https
 ```
@@ -164,24 +164,24 @@ You're now inside `pilot_control_dataset` and logged into `gh`. Run:
 
 ```bash
 chmod +x publish.sh
-./publish.sh willstarn
+./publish.sh willtarn
 ```
 
 That's it. The script will:
 
 1. Replace the `<your-username>` placeholders in `pyproject.toml` and
-   `CITATION.cff` with `willstarn`.
+   `CITATION.cff` with `willtarn`.
 2. Run `git init -b main` if the folder isn't already a git repo.
 3. Stage all files (`git add .`) and create the initial commit.
-4. Create a public repo `willstarn/pilot-control` on GitHub via `gh`.
+4. Create a public repo `willtarn/pilot-control` on GitHub via `gh`.
 5. Add the remote and push the commit.
 
 **Expected output (final two lines):**
 
 ```
 ==> Done.
-    Repo:  https://github.com/willstarn/pilot-control
-    CI:    https://github.com/willstarn/pilot-control/actions
+    Repo:  https://github.com/willtarn/pilot-control
+    CI:    https://github.com/willtarn/pilot-control/actions
 ```
 
 Open the URL. You should see the dataset README rendered, with all files
@@ -198,9 +198,9 @@ Run these commands one at a time, inside `pilot_control_dataset`:
 
 ```bash
 # 1. Replace placeholders manually (macOS sed syntax)
-sed -i '' 's|<your-username>|willstarn|g' pyproject.toml CITATION.cff
+sed -i '' 's|<your-username>|willtarn|g' pyproject.toml CITATION.cff
 
-# (Linux: drop the '' — sed -i 's|<your-username>|willstarn|g' pyproject.toml CITATION.cff)
+# (Linux: drop the '' — sed -i 's|<your-username>|willtarn|g' pyproject.toml CITATION.cff)
 
 # 2. Initialise the repo on the main branch
 git init -b main
@@ -215,7 +215,7 @@ git status
 git commit -m "initial scaffold: Pilot Control benchmark dataset, Inspect harness, scoring, and docs"
 
 # 6. Create the public GitHub repo and push in one step
-gh repo create willstarn/pilot-control \
+gh repo create willtarn/pilot-control \
   --public \
   --source=. \
   --remote=origin \
@@ -234,7 +234,7 @@ Three things to check, in order.
 
 ### a) The README renders correctly
 
-Open `https://github.com/willstarn/pilot-control` in a browser. The
+Open `https://github.com/willtarn/pilot-control` in a browser. The
 dataset README should display as formatted Markdown — tables visible,
 links clickable, no raw `|` or `#` symbols.
 
@@ -283,7 +283,7 @@ professional:
 
 ### a) Add a description and homepage URL
 
-On the repo page (`https://github.com/willstarn/pilot-control`), click
+On the repo page (`https://github.com/willtarn/pilot-control`), click
 the **gear icon** next to "About" (top right). Fill in:
 
 - **Description:** "A maritime safety benchmark for LLM agents."
@@ -304,7 +304,7 @@ Topics make the repo findable on GitHub's search.
 
 ### c) Pin the repo on your profile
 
-Go to your profile (`https://github.com/willstarn`), click
+Go to your profile (`https://github.com/willtarn`), click
 **Customize your pins**, and pin `pilot-control`. This puts it on the
 front page of your profile, where recruiters look first.
 
@@ -327,7 +327,7 @@ The script isn't marked executable. Run:
 
 ```bash
 chmod +x publish.sh
-./publish.sh willstarn
+./publish.sh willtarn
 ```
 
 ### "gh: command not found"
@@ -338,9 +338,9 @@ Install the GitHub CLI from https://cli.github.com. On macOS:
 brew install gh
 ```
 
-### "GraphQL: Could not resolve to a User with the login of 'willstarn'"
+### "GraphQL: Could not resolve to a User with the login of 'willtarn'"
 
-The username `willstarn` doesn't exist on GitHub yet. Either create the
+The username `willtarn` doesn't exist on GitHub yet. Either create the
 account at https://github.com/signup or use a username you've already
 registered. The script accepts any username as the argument.
 
@@ -350,7 +350,7 @@ You've run the script before but the push failed mid-flight. Run:
 
 ```bash
 git remote remove origin
-./publish.sh willstarn
+./publish.sh willtarn
 ```
 
 ### "Updates were rejected because the remote contains work that you do not have locally"
