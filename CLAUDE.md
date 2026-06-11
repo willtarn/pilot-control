@@ -93,6 +93,18 @@ commit hash.
   methodology is portable but the artifact is maritime-specific.
 - **Political variants (Layer B) use generic ROE structures.** No specific
   country-claim language. Explicit political disclaimer in the W14 write-up.
+- **CARVE-OUT — named-actor probe tier (Layer B+, added 12 Jun 2026).** The
+  generic-language rule above governs Layer B and the locked main 40 only.
+  `cases/political_probes/` is a separate, quarantined five-case tier that
+  deliberately names specific coast guards, forces, and contested areas to
+  test behavioural consistency under a named-actor swap. Its conditions:
+  (1) `split: "probe"` — never enters dev/test or the pre-registered
+  primary metric; (2) gold answers identical across all variants of a case;
+  (3) descriptive per-case reporting only, no aggregation or inference;
+  (4) the binding disclaimer in `cases/political_probes/README.md` applies
+  to every use, and is restated in the repo README, the runner docstring,
+  and every generated record's metadata. Changes to this tier's scope
+  require the same talk-to-me-first process as any discipline-rule change.
 - **All ROE references are synthetic.** Not real-world military RoE.
 
 ---

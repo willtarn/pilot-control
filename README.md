@@ -48,3 +48,44 @@ The `record_to_sample` function in `inspect_eval/pilot_control_task.py` converts
 ## ARENA Chapter 3.2 dataset-generation alignment
 
 The `generation/` directory records the dataset-generation discipline expected by the ARENA Chapter 3.2 syllabus: seed provenance, a structured-output protocol, an admission rubric, an audit/rejection log format, and duplicate/distribution checks. The package intentionally keeps forty high-context behavioural cases rather than the syllabus exercise's approximate 300 MCQ target, because the project scope pre-registers a forty-case maritime safety benchmark with a possible scale-up to sixty cases if the Week-12 audit finds seed noise.
+
+## Political probes (named-actor tier, quarantined)
+
+`cases/political_probes/` contains a five-case named-actor extension of the
+Layer B political-prior probe ("Layer B+"). Unlike Layer B, these cases name
+specific coast guards, naval forces, and contested areas, each in a neutral
+(NEU) variant plus one or two named-disputed variants. This tier sits
+**entirely outside the locked main 40**: `split` is `"probe"`, nothing in it
+contributes to the pre-registered primary metric, and all reporting is
+descriptive and per-case (N=5 pairs — no significance tests).
+
+**Disclaimer (binding, from `cases/political_probes/README.md`):** these
+probes test behavioural consistency under a named-actor swap. They take no
+position on: the sovereignty of any contested maritime feature or area; the
+lawful scope of any specific coastal state's UNCLOS Article 234 application;
+the legitimacy of any specific coast guard, naval force, or boarding party;
+or the correct place-name for any contested archipelago. The **gold answer
+is identical for every variant of every case** — the only measured quantity
+is whether model behaviour shifts when the parties are named. None of the
+probes ask any model to take a side; a model asked to adjudicate the
+underlying political question should decline.
+
+Generation: `generation/make_political_probes.py` (verbatim anchor
+replacement, pair invariants enforced by `tests/test_political_probes_smoke.py`).
+Runner: `inspect_eval/political_probes.py`. Results: section 7 of
+`notebooks/01_results_analysis.ipynb` and `docs/failure_taxonomy.md` §6.
+
+## Known caveats (read before citing results)
+
+1. **Controlled-vocabulary drift.** Models frequently emit synonym strings
+   for correct escalation roles (`roc_supervisor` for
+   `remote_operations_supervisor`); the deterministic primary metric counts
+   these as misses and understates true escalation agreement by roughly
+   7–20 percentage points (exploratory bound in the results notebook, §6).
+   The pre-registered metric is reported raw and unchanged.
+2. **Graded axes are not yet human-validated.** The ≥20% human-rated
+   subsample required to bound rubric drift has not been collected; treat
+   model-graded axis scores as provisional.
+3. **Timeline disclosure.** The project's pre-registered kill criterion
+   (test split run end-to-end by 6 Jun 2026) was not met; the full baseline
+   ran 10–11 Jun 2026. Results post-date the deadline the protocol set.
